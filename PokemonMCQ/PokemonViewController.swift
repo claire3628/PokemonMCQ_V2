@@ -132,44 +132,69 @@ class PokemonViewController: UIViewController {
         Questions(question: "哪一隻寶可夢代表“太陽”？", option: ["月亮伊布", "露奈雅拉", "索爾迦雷歐"], answer: 2),
     ]
     
+    @IBOutlet weak var frameImage: UIImageView!
     
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet var optionButton: [UIButton]!
     
-    
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
     
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var awardButton: UIButton!
+    
     var index: Int = 0
+    var score: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        frameImage.frame = view.bounds
 
         // Do any additional setup after loading the view.
-        questionLabel.text = "READY?"
+        questionLabel.text = "寶可夢知識大挑戰"
+        questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         startButton.setTitle("GO!", for: .normal)
         
+        scoreLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         nextButton.isEnabled = false
         for i in 0...2 {
             optionButton[i].setTitle("?????", for: .normal)
-            optionButton[i].isEnabled = false
         }
+        
+        index = 0
+        score = 0
+        scoreLabel.text = "分數：\(score)"
+        awardButton.isHidden = true
     }
 
     @IBAction func selection(_ sender: UIButton) {
         
-        if sender.tag != listQA[index].answer {
-            sender.tintColor = .systemRed
+        if nextButton.isEnabled {
+            if sender.tag != listQA[index].answer {
+                sender.tintColor = .systemRed
+            } else {
+                score += 1
+            }
+            
+            optionButton[listQA[index].answer].tintColor = .systemGreen
+            scoreLabel.text = "分數：\(score)"
+            
+            if score >= 5 {
+                awardButton.isHidden = false
+            }
         }
-        
-        optionButton[listQA[index].answer].tintColor = .systemGreen
         
     }
     
     @IBAction func startGame(_ sender: Any) {
-        startButton.setTitle("Reset", for: .normal)
+
         listQA.shuffle()
         index = 0
+        score = 0
+        scoreLabel.text = "分數：\(score)"
+        awardButton.isHidden = true
+        startButton.setTitle("Reset", for: .normal)
         updateUI()
     }
     
@@ -188,6 +213,13 @@ class PokemonViewController: UIViewController {
         }
         nextButton.isEnabled = true
     }
+    
+    @IBSegueAction func award(_ coder: NSCoder) -> ScoreViewController? {
+        let controller = ScoreViewController(coder: coder)
+        controller?.score = score
+        return controller
+    }
+    
 }
 
 #Preview {
