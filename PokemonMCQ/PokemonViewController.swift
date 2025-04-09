@@ -169,12 +169,12 @@ class PokemonViewController: UIViewController {
             }
             optionButton[listQA[index].answer].tintColor = .systemGreen
             
-            if index == 4 {
+            if index == 19 {
                 if score >= 15 {
                     questionLabel.text = "恭喜完成寶可夢挑戰\n請點擊獎杯領證書"
                     awardButton.isHidden = false
                 } else {
-                    questionLabel.text = "0分好可惜\n再挑戰一次吧"
+                    questionLabel.text = "分數有點低好可惜\n再挑戰一次吧"
                     startButton.isEnabled = true
                 }
                 
