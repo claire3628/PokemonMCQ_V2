@@ -10,7 +10,7 @@ import UIKit
 class ScoreViewController: UIViewController {
 
     
-    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     
     var score:Int!
@@ -18,21 +18,23 @@ class ScoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        scoreLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        levelLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         titleLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         
-        scoreLabel.text = "\(score!)分"
+        levelLabel.text = "\(score!)分"
         
         if score >= 100 {
             titleLabel.text = "寶可夢專家"
-        } else if score >= 50 {
+        } else if score >= 75 {
             titleLabel.text = "寶可夢達人"
-        } else if score >= 25 {
+        } else if score >= 50 {
             titleLabel.text = "寶可夢高手"
-        } else if score >= 12 {
+        } else if score >= 25 {
             titleLabel.text = "寶可夢強者"
-        } else if score >= 5 {
+        } else if score >= 15 {
             titleLabel.text = "寶可夢粉絲"
+        } else {
+            titleLabel.text = "寶可夢陌生人"
         }
 
         // Do any additional setup after loading the view.
@@ -51,7 +53,7 @@ class ScoreViewController: UIViewController {
 
 }
 
-#Preview {
-    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-    return storyboard.instantiateViewController(withIdentifier: "ScoreViewController")
-}
+//#Preview {
+//    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//    return storyboard.instantiateViewController(withIdentifier: "ScoreViewController")
+//}

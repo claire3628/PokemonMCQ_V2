@@ -150,73 +150,84 @@ class PokemonViewController: UIViewController {
         super.viewDidLoad()
         
         frameImage.frame = view.bounds
-
-        // Do any additional setup after loading the view.
-        questionLabel.text = "寶可夢知識大挑戰"
         questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-        startButton.setTitle("GO!", for: .normal)
-        
         scoreLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        nextButton.isEnabled = false
-        for i in 0...2 {
-            optionButton[i].setTitle("?????", for: .normal)
-        }
         
-        index = 0
-        score = 0
-        scoreLabel.text = "分數：\(score)"
-        awardButton.isHidden = true
+        reset()
     }
 
     @IBAction func selection(_ sender: UIButton) {
         
-        if nextButton.isEnabled {
+        if startButton.isEnabled == false {
+            
+            // Change option color
             if sender.tag != listQA[index].answer {
                 sender.tintColor = .systemRed
             } else {
-                score += 1
+                score += 5
+                scoreLabel.text = "分數：\(score)/100"
             }
-            
             optionButton[listQA[index].answer].tintColor = .systemGreen
-            scoreLabel.text = "分數：\(score)"
             
-            if score >= 5 {
-                awardButton.isHidden = false
+            if index == 4 {
+                if score >= 15 {
+                    questionLabel.text = "恭喜完成寶可夢挑戰\n請點擊獎杯領證書"
+                    awardButton.isHidden = false
+                } else {
+                    questionLabel.text = "0分好可惜\n再挑戰一次吧"
+                    startButton.isEnabled = true
+                }
+                
+            } else {
+                nextButton.isEnabled = true
             }
         }
-        
     }
     
     @IBAction func startGame(_ sender: Any) {
-
+        startButton.isEnabled = false
         listQA.shuffle()
         index = 0
         score = 0
-        scoreLabel.text = "分數：\(score)"
-        awardButton.isHidden = true
-        startButton.setTitle("Reset", for: .normal)
-        updateUI()
+        scoreLabel.text = "分數：\(score)/100"
+        updateQuestionUI()
     }
     
     
     @IBAction func next(_ sender: Any) {
+        nextButton.isEnabled = false
         index = (index + 1) % listQA.count
-        updateUI()
+        updateQuestionUI()
     }
     
-    func updateUI() {
-        questionLabel.text = listQA[index].question
+    //
+    func reset() {
+        questionLabel.text = "寶可夢知識大挑戰"
         for i in 0...2 {
-            optionButton[i].isEnabled = true
+            optionButton[i].setTitle("?????", for: .normal)
+            optionButton[i].tintColor = .tintColor
+        }
+        index = 0
+        score = 0
+        scoreLabel.text = "分數：\(score)/100"
+        awardButton.isHidden = true
+        startButton.isEnabled = true
+        nextButton.isEnabled = false
+    }
+    
+    func updateQuestionUI() {
+        awardButton.isHidden = true
+        questionLabel.text = "\(index+1). " + listQA[index].question
+        for i in 0...2 {
             optionButton[i].tintColor = .tintColor
             optionButton[i].setTitle(listQA[index].option[i], for: .normal)
         }
-        nextButton.isEnabled = true
     }
     
     @IBSegueAction func award(_ coder: NSCoder) -> ScoreViewController? {
         let controller = ScoreViewController(coder: coder)
         controller?.score = score
+        reset()
         return controller
     }
     
