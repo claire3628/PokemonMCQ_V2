@@ -18,6 +18,7 @@ class ScoreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
         levelLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         titleLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         

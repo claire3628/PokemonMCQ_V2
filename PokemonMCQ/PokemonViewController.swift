@@ -149,6 +149,7 @@ class PokemonViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        overrideUserInterfaceStyle = .light
         frameImage.frame = view.bounds
         questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         scoreLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
