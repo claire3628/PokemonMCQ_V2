@@ -15,30 +15,36 @@ class ScoreViewController: UIViewController {
     
     var score:Int!
     
+    private var levelText:String {
+        "\(score!)分"
+    }
+    
+    private var titleText:String {
+        if score >= 100 {
+            return "寶可夢專家"
+        } else if score >= 75 {
+            return "寶可夢達人"
+        } else if score >= 50 {
+            return "寶可夢高手"
+        } else if score >= 25 {
+            return "寶可夢強者"
+        } else if score >= 15 {
+            return "寶可夢粉絲"
+        } else {
+            return "寶可夢陌生人"
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         overrideUserInterfaceStyle = .light
+        
         levelLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
+        levelLabel.text = levelText
+        
         titleLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
-        
-        levelLabel.text = "\(score!)分"
-        
-        if score >= 100 {
-            titleLabel.text = "寶可夢專家"
-        } else if score >= 75 {
-            titleLabel.text = "寶可夢達人"
-        } else if score >= 50 {
-            titleLabel.text = "寶可夢高手"
-        } else if score >= 25 {
-            titleLabel.text = "寶可夢強者"
-        } else if score >= 15 {
-            titleLabel.text = "寶可夢粉絲"
-        } else {
-            titleLabel.text = "寶可夢陌生人"
-        }
-
-        // Do any additional setup after loading the view.
+        titleLabel.text = titleText
     }
     
 

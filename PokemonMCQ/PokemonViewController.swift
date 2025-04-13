@@ -9,7 +9,10 @@ import UIKit
 
 class PokemonViewController: UIViewController {
 
+    var defaultQA:Questions = Questions(question: "寶可夢知識大挑戰 V2", option: Array(repeating: "?????", count: 3), answer: 1)
+    
     var listQA:[Questions] = [
+        
         Questions(question: "小火龍的最終進化型是什麼？", option: ["火恐龍", "噴火龍", "火焰鳥"], answer: 1),
         Questions(question: "皮卡丘是第幾代的寶可夢？", option: ["第二代", "第一代", "第三代"], answer: 1),
         Questions(question: "以下哪一個寶可夢是水屬性？", option: ["火焰雞", "傑尼龜", "雷丘"], answer: 1),
@@ -137,14 +140,15 @@ class PokemonViewController: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet var optionButton: [UIButton]!
     
-    @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var startButton: UIButton!
-    
     @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var awardButton: UIButton!
     
     var index: Int = 0
     var score: Int = 0
+    
+    var scoreText: String {
+        return "分數：\(score)"
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,84 +158,86 @@ class PokemonViewController: UIViewController {
         questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         scoreLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         
-        reset()
+        updateUI(qaItem: defaultQA)
     }
 
     @IBAction func selection(_ sender: UIButton) {
         
-        if startButton.isEnabled == false {
+        let userAnswer = sender.titleLabel?.text ?? ""
+        if userAnswer == defaultQA.option[0] { return }
+        
+        let realAnswerIdx = listQA[index-1].answer
+        let realAnswerStr = listQA[index-1].option[realAnswerIdx]
+        
+//        for i in 0...2 {
+//            if optionButton[i].titleLabel?.text == realAnswer {
+//                optionButton[i].tintColor = .systemGreen
+//            }
+//        }
+        
+        if userAnswer == realAnswerStr {
+            score += 10
+            scoreLabel.text = scoreText
+        } else {
+//            sender.tintColor = .systemRed
+        }
+    
             
-            // Change option color
-            if sender.tag != listQA[index].answer {
-                sender.tintColor = .systemRed
+        let controller = UIAlertController(title: (userAnswer == realAnswerStr) ? "O: 答對了" : "X: 答錯了",
+                                          message: "正確答案：\(realAnswerStr)",preferredStyle: .alert)
+
+        let okAction = UIAlertAction(title: "OK", style: .default) {_ in
+            if self.index > 3 {
+                self.performSegue(withIdentifier: "showScoreSegue", sender: nil)
             } else {
-                score += 5
-                scoreLabel.text = "分數：\(score)/100"
-            }
-            optionButton[listQA[index].answer].tintColor = .systemGreen
-            
-            if index == 19 {
-                if score >= 15 {
-                    questionLabel.text = "恭喜完成寶可夢挑戰\n請點擊獎杯領證書"
-                    awardButton.isHidden = false
-                } else {
-                    questionLabel.text = "分數有點低好可惜\n再挑戰一次吧"
-                    startButton.isEnabled = true
-                }
-                
-            } else {
-                nextButton.isEnabled = true
+                self.updateUI(qaItem: self.listQA[self.index])
             }
         }
+        
+        controller.addAction(okAction)
+        present(controller, animated: true)
     }
     
     @IBAction func startGame(_ sender: Any) {
-        startButton.isEnabled = false
-        listQA.shuffle()
-        index = 0
-        score = 0
-        scoreLabel.text = "分數：\(score)/100"
-        updateQuestionUI()
+        updateUI(qaItem: listQA[index])
     }
     
     
-    @IBAction func next(_ sender: Any) {
-        nextButton.isEnabled = false
-        index = (index + 1) % listQA.count
-        updateQuestionUI()
-    }
-    
-    //
-    func reset() {
-        questionLabel.text = "寶可夢知識大挑戰"
+    func updateUI(qaItem: Questions) {
+        
+        let newOption:[String] = qaItem.option.shuffled()
+        
         for i in 0...2 {
-            optionButton[i].setTitle("?????", for: .normal)
             optionButton[i].tintColor = .tintColor
+            optionButton[i].setTitle(newOption[i], for: .normal)
         }
-        index = 0
-        score = 0
-        scoreLabel.text = "分數：\(score)/100"
-        awardButton.isHidden = true
-        startButton.isEnabled = true
-        nextButton.isEnabled = false
-    }
-    
-    func updateQuestionUI() {
-        awardButton.isHidden = true
-        questionLabel.text = "\(index+1). " + listQA[index].question
-        for i in 0...2 {
-            optionButton[i].tintColor = .tintColor
-            optionButton[i].setTitle(listQA[index].option[i], for: .normal)
+        
+        let id =  listQA.firstIndex(where: { $0 == qaItem }) ?? 0
+        if id == 0 {
+            startButton.isHidden = false
+            scoreLabel.isHidden = true
+            questionLabel.text = qaItem.question
+            listQA.shuffle()
+            index = 1
+            score = 0
+            scoreLabel.text = scoreText
+
+        } else {
+            startButton.isHidden = true
+            scoreLabel.isHidden = false
+            questionLabel.text = "\(id). " + qaItem.question
+            index = (index + 1) % listQA.count
         }
     }
     
-    @IBSegueAction func award(_ coder: NSCoder) -> ScoreViewController? {
+    @IBSegueAction func showScoreView(_ coder: NSCoder, sender: Any?, segueIdentifier: String?) -> ScoreViewController? {
         let controller = ScoreViewController(coder: coder)
         controller?.score = score
-        reset()
+        
+        updateUI(qaItem: defaultQA)
+        
         return controller
     }
-    
 }
 
 #Preview {

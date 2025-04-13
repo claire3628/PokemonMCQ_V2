@@ -51,7 +51,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Fb-Az-UNt" userLabel="ButtonRestart">
-                                <rect key="frame" x="96" y="659" width="80" height="80"/>
+                                <rect key="frame" x="120" y="660" width="152" height="65"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="filled" title="Start" cornerStyle="capsule">
@@ -61,40 +61,18 @@
                                     <action selector="startGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DJL-vf-vJc"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mJl-qL-ee3" userLabel="ButtonNext">
-                                <rect key="frame" x="216" y="663" width="80" height="72"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Next" cornerStyle="capsule">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="20"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="next:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vE6-La-zVc"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Bk-bG-GTi">
-                                <rect key="frame" x="142" y="84" width="130" height="45"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" systemColor="tintColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMP-cy-ZBA">
-                                <rect key="frame" x="297" y="84" width="58" height="51"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="🏆">
-                                    <fontDescription key="titleFontDescription" type="system" pointSize="30"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <segue destination="Dp3-fF-bzl" kind="show" destinationCreationSelector="award:" id="Ydx-dd-5Nw"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2QR-7M-rQ5">
                                 <rect key="frame" x="57" y="179" width="279" height="163"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Bk-bG-GTi">
+                                <rect key="frame" x="269" y="83" width="92" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="tintColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -103,15 +81,14 @@
                     </view>
                     <navigationItem key="navigationItem" id="x1P-Qy-wO7"/>
                     <connections>
-                        <outlet property="awardButton" destination="aMP-cy-ZBA" id="Wf9-gc-HWp"/>
                         <outlet property="frameImage" destination="fuO-hm-qaE" id="sdl-qS-8R0"/>
-                        <outlet property="nextButton" destination="mJl-qL-ee3" id="AOw-LO-Ssh"/>
                         <outlet property="questionLabel" destination="2QR-7M-rQ5" id="Hva-MK-C2k"/>
                         <outlet property="scoreLabel" destination="8Bk-bG-GTi" id="j7G-Vc-gNy"/>
                         <outlet property="startButton" destination="8Fb-Az-UNt" id="Nab-q2-Mtj"/>
                         <outletCollection property="optionButton" destination="RbQ-fU-Pmt" collectionClass="NSMutableArray" id="8rV-h3-0Zd"/>
                         <outletCollection property="optionButton" destination="CUh-S7-MvZ" collectionClass="NSMutableArray" id="Vwv-hL-tT1"/>
                         <outletCollection property="optionButton" destination="d57-0y-LWQ" collectionClass="NSMutableArray" id="cNP-BU-FJf"/>
+                        <segue destination="Dp3-fF-bzl" kind="show" identifier="showScoreSegue" destinationCreationSelector="showScoreView:sender:segueIdentifier:" id="GuX-IW-N4Y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -176,7 +153,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="dqs-9w-GrL"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" destinationCreationSelector="showScore:sender:segueIdentifier:" id="dqs-9w-GrL"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dCf-U3-01j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
