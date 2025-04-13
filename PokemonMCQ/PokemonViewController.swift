@@ -163,31 +163,34 @@ class PokemonViewController: UIViewController {
 
     @IBAction func selection(_ sender: UIButton) {
         
-        let userAnswer = sender.titleLabel?.text ?? ""
-        if userAnswer == defaultQA.option[0] { return }
+        let userAnswerStr = sender.titleLabel?.text ?? ""
+        
+        if userAnswerStr == defaultQA.option[0] {
+            return
+        }
         
         let realAnswerIdx = listQA[index-1].answer
         let realAnswerStr = listQA[index-1].option[realAnswerIdx]
         
 //        for i in 0...2 {
-//            if optionButton[i].titleLabel?.text == realAnswer {
+//            if optionButton[i].titleLabel?.text == realAnswerStr {
 //                optionButton[i].tintColor = .systemGreen
 //            }
 //        }
         
-        if userAnswer == realAnswerStr {
+        if userAnswerStr == realAnswerStr {
             score += 10
             scoreLabel.text = scoreText
         } else {
-//            sender.tintColor = .systemRed
+ //           sender.tintColor = .systemRed
         }
     
             
-        let controller = UIAlertController(title: (userAnswer == realAnswerStr) ? "O: 答對了" : "X: 答錯了",
+        let controller = UIAlertController(title: (userAnswerStr == realAnswerStr) ? "O: 答對了" : "X: 答錯了",
                                           message: "正確答案：\(realAnswerStr)",preferredStyle: .alert)
 
         let okAction = UIAlertAction(title: "OK", style: .default) {_ in
-            if self.index > 3 {
+            if self.index > 10 {
                 self.performSegue(withIdentifier: "showScoreSegue", sender: nil)
             } else {
                 self.updateUI(qaItem: self.listQA[self.index])
@@ -231,7 +234,9 @@ class PokemonViewController: UIViewController {
     }
     
     @IBSegueAction func showScoreView(_ coder: NSCoder, sender: Any?, segueIdentifier: String?) -> ScoreViewController? {
+        
         let controller = ScoreViewController(coder: coder)
+        
         controller?.score = score
         
         updateUI(qaItem: defaultQA)
