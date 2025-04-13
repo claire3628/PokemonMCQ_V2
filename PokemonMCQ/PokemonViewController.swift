@@ -145,6 +145,7 @@ class PokemonViewController: UIViewController {
     
     var index: Int = 0
     var score: Int = 0
+    var answerStr: String = ""
     
     var scoreText: String {
         return "分數：\(score)"
@@ -154,6 +155,7 @@ class PokemonViewController: UIViewController {
         super.viewDidLoad()
         
         overrideUserInterfaceStyle = .light
+        
         frameImage.frame = view.bounds
         questionLabel.font = UIFont.systemFont(ofSize: 30, weight: .bold)
         scoreLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -163,31 +165,19 @@ class PokemonViewController: UIViewController {
 
     @IBAction func selection(_ sender: UIButton) {
         
-        let userAnswerStr = sender.titleLabel?.text ?? ""
+        let answerGet = sender.titleLabel?.text ?? ""
         
-        if userAnswerStr == defaultQA.option[0] {
+        if answerGet == defaultQA.option[0] {
             return
         }
         
-        let realAnswerIdx = listQA[index-1].answer
-        let realAnswerStr = listQA[index-1].option[realAnswerIdx]
-        
-//        for i in 0...2 {
-//            if optionButton[i].titleLabel?.text == realAnswerStr {
-//                optionButton[i].tintColor = .systemGreen
-//            }
-//        }
-        
-        if userAnswerStr == realAnswerStr {
+        if answerGet == answerStr {
             score += 10
             scoreLabel.text = scoreText
-        } else {
- //           sender.tintColor = .systemRed
         }
-    
             
-        let controller = UIAlertController(title: (userAnswerStr == realAnswerStr) ? "O: 答對了" : "X: 答錯了",
-                                          message: "正確答案：\(realAnswerStr)",preferredStyle: .alert)
+        let controller = UIAlertController(title: (answerGet == answerStr) ? "O: 答對了" : "X: 答錯了",
+                                          message: "正確答案：\(answerStr)",preferredStyle: .alert)
 
         let okAction = UIAlertAction(title: "OK", style: .default) {_ in
             if self.index > 10 {
@@ -208,18 +198,12 @@ class PokemonViewController: UIViewController {
     
     func updateUI(qaItem: Questions) {
         
-        let newOption:[String] = qaItem.option.shuffled()
-        
-        for i in 0...2 {
-            optionButton[i].tintColor = .tintColor
-            optionButton[i].setTitle(newOption[i], for: .normal)
-        }
-        
         let id =  listQA.firstIndex(where: { $0 == qaItem }) ?? 0
         if id == 0 {
             startButton.isHidden = false
             scoreLabel.isHidden = true
             questionLabel.text = qaItem.question
+            answerStr = ""
             listQA.shuffle()
             index = 1
             score = 0
@@ -229,7 +213,14 @@ class PokemonViewController: UIViewController {
             startButton.isHidden = true
             scoreLabel.isHidden = false
             questionLabel.text = "\(id). " + qaItem.question
+            answerStr = qaItem.option[qaItem.answer]
             index = (index + 1) % listQA.count
+        }
+        
+        let newOption:[String] = qaItem.option.shuffled()
+        for i in 0...2 {
+            optionButton[i].tintColor = .tintColor
+            optionButton[i].setTitle(newOption[i], for: .normal)
         }
     }
     
